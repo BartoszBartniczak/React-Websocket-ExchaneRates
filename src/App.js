@@ -1,26 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useEffect, useState} from 'react';
+import classes from './App.module.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+function App(params) {
+
+    const [currentExchangeRate, setExchangeRate] = useState(parseFloat(0).toFixed(4));
+    const [exchangeRates, setExchangeRates] = useState([]);
+
+    useEffect(()=>{
+        const webSocket = new WebSocket('ws://localhost:8080');
+        webSocket.onmessage = (message)=>{
+            const exchangeRateData = JSON.parse(message.data);
+            const newExchangeRate = parseFloat(exchangeRateData.exchangeRate).toFixed(4);
+
+            if(currentExchangeRate){
+                setExchangeRates((exchangeRates)=>[newExchangeRate,...exchangeRates]);
+            }
+
+            setExchangeRate(newExchangeRate);
+        };
+    }, [])
+
+    return (
+        <div className={classes.App}>
+            <header>
+                <p>
+                    Current exchange rate: {currentExchangeRate ? currentExchangeRate : '0.0000'}
+                </p>
+            </header>
+            <section>
+                <p>Previous exchange rates:</p>
+                <ul>
+                    {exchangeRates.map((exchangeRate, index) => <li key={index}>{exchangeRate}</li>)}
+                </ul>
+            </section>
+        </div>
+    );
 }
 
 export default App;
