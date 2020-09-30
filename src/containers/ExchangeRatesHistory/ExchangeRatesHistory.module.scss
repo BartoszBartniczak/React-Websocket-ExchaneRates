@@ -1,0 +1,31 @@
+.ExchangeRatesHistory{
+  min-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  ul{
+    padding: 0;
+    margin: 0;
+    width: 100%;
+
+    li{
+      list-style: none;
+      padding: 5px;
+      margin: 0;
+      display: block;
+
+      &:nth-child(odd){
+        background-color: lightgrey;
+      }
+    }
+  }
+}
+
+.Charts{
+  width: 100%;
+  display: grid;
+  grid-template-columns: 50% 50%;
+}
+

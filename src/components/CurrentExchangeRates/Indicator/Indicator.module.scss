@@ -1,0 +1,13 @@
+.Indicator{
+  font-size: 0.9rem;
+  display: inline-block;
+
+  &.up{
+    color: green;
+  }
+
+  &.down{
+    color: red;
+  }
+
+}
